@@ -1,4 +1,7 @@
-module Inputs where
+module Inputs
+  ( inputHandler,
+  )
+where
 
 import AppTypes
 import Graphics.Gloss.Interface.IO.Game

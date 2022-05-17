@@ -2,6 +2,11 @@
 
 module HaskSweep
   ( Board,
+    Cell,
+    CellType (..),
+    cellType,
+    CellState (..),
+    cellState,
     mkEmptyBoard,
     addRandomMines,
     getCells,
@@ -30,22 +35,23 @@ data Board = Board
 
 makeLenses ''Board
 
-defaultCell :: Cell
-defaultCell =
-  Cell
-    { _cellType = EmptyCell 0,
-      _cellState = HiddenCell
-    }
-
 mkEmptyBoard :: Int -> Board
 mkEmptyBoard s =
   Board
     { _boardCells = array ((1, 1), (s, s)) ([((i, j), defaultCell) | i <- [1 .. s], j <- [1 .. s]]),
       _boardSize = s
     }
+  where
+    defaultCell =
+      Cell
+        { _cellType = EmptyCell 0,
+          _cellState = HiddenCell
+        }
 
 getCells :: Board -> [((Int, Int), Cell)]
-getCells = undefined
+getCells b = zip (Data.Array.indices cs) (elems cs)
+  where
+    cs = b ^. boardCells
 
 -- TODO put `n` random mines in the board
 addRandomMines :: Int -> Board -> IO Board

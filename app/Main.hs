@@ -10,16 +10,13 @@ import Inputs
 windowDisplay :: Display
 windowDisplay = InWindow "HaskSweeper" (windowSize, windowSize) (10, 10)
 
-initialState :: World
-initialState =
-  World
-    { _board = mkEmptyBoard boardSize
-    }
-
 -- Update
 update :: Float -> World -> IO World
 update _ = pure
 
 -- Main
 main :: IO ()
-main = playIO windowDisplay (light orange) fps initialState draw inputHandler update
+main = do
+  initBoard <- addRandomMines numMines $ mkEmptyBoard boardSize
+  let initialState = mkWorld initBoard
+  playIO windowDisplay (light orange) fps initialState draw inputHandler update
