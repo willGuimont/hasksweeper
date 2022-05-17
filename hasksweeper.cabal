@@ -1,0 +1,173 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           hasksweeper
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/hasksweeper#readme>
+homepage:       https://github.com/githubuser/hasksweeper#readme
+bug-reports:    https://github.com/githubuser/hasksweeper/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2022 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/hasksweeper
+
+library
+  exposed-modules:
+      HaskSweep
+  other-modules:
+      Paths_hasksweeper
+  hs-source-dirs:
+      src
+  default-extensions:
+      EmptyCase
+      FlexibleContexts
+      FlexibleInstances
+      InstanceSigs
+      MultiParamTypeClasses
+      LambdaCase
+      MultiWayIf
+      NamedFieldPuns
+      TupleSections
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveLift
+      DeriveTraversable
+      DerivingStrategies
+      GeneralizedNewtypeDeriving
+      StandaloneDeriving
+      BangPatterns
+      KindSignatures
+      TypeOperators
+      OverloadedStrings
+      ScopedTypeVariables
+      TypeApplications
+      ConstraintKinds
+      RankNTypes
+      ExistentialQuantification
+      FunctionalDependencies
+      GADTs
+      DataKinds
+      TypeFamilies
+      TypeFamilyDependencies
+      PolyKinds
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -flate-specialise -fspecialise-aggressively
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , gloss
+    , lens
+  default-language: Haskell2010
+
+executable hasksweeper-exe
+  main-is: Main.hs
+  other-modules:
+      AppTypes
+      Constants
+      Draw
+      Inputs
+      Paths_hasksweeper
+  hs-source-dirs:
+      app
+  default-extensions:
+      EmptyCase
+      FlexibleContexts
+      FlexibleInstances
+      InstanceSigs
+      MultiParamTypeClasses
+      LambdaCase
+      MultiWayIf
+      NamedFieldPuns
+      TupleSections
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveLift
+      DeriveTraversable
+      DerivingStrategies
+      GeneralizedNewtypeDeriving
+      StandaloneDeriving
+      BangPatterns
+      KindSignatures
+      TypeOperators
+      OverloadedStrings
+      ScopedTypeVariables
+      TypeApplications
+      ConstraintKinds
+      RankNTypes
+      ExistentialQuantification
+      FunctionalDependencies
+      GADTs
+      DataKinds
+      TypeFamilies
+      TypeFamilyDependencies
+      PolyKinds
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -flate-specialise -fspecialise-aggressively -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , gloss
+    , hasksweeper
+    , lens
+  default-language: Haskell2010
+
+test-suite hasksweeper-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_hasksweeper
+  hs-source-dirs:
+      test
+  default-extensions:
+      EmptyCase
+      FlexibleContexts
+      FlexibleInstances
+      InstanceSigs
+      MultiParamTypeClasses
+      LambdaCase
+      MultiWayIf
+      NamedFieldPuns
+      TupleSections
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveLift
+      DeriveTraversable
+      DerivingStrategies
+      GeneralizedNewtypeDeriving
+      StandaloneDeriving
+      BangPatterns
+      KindSignatures
+      TypeOperators
+      OverloadedStrings
+      ScopedTypeVariables
+      TypeApplications
+      ConstraintKinds
+      RankNTypes
+      ExistentialQuantification
+      FunctionalDependencies
+      GADTs
+      DataKinds
+      TypeFamilies
+      TypeFamilyDependencies
+      PolyKinds
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -O2 -flate-specialise -fspecialise-aggressively -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , gloss
+    , hasksweeper
+    , lens
+  default-language: Haskell2010
