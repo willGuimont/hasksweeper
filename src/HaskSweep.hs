@@ -117,6 +117,5 @@ revealCells b p = do
     revealedCell = fromMaybe (EmptyCell 0) (b ^? (ix p . _2 . cellType))
     visitableNeighbors = if revealedCell == EmptyCell 0 then filter isCellVisitable $ fst <$> neighbors else []
     visitCell b' = put $ (b' & ix p . _2 . cellState .~ VisibleCell) & (ix p . _1 .~ True)
-    update b' p' = do
-      visitCell b'
+    update _ p' = do
       get >>= \b'' -> revealCells b'' p' >>= put >> get
