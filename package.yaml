@@ -78,6 +78,7 @@ dependencies:
   - array
   - gloss
   - lens
+  - mtl
 
 library:
   source-dirs: src

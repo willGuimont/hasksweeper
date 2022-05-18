@@ -2,20 +2,21 @@
 
 module AppTypes
   ( World,
+    selectedCell,
+    board,
     mkWorld,
-    getBoard,
   )
 where
 
 import Control.Lens
 import HaskSweep
 
-newtype World = World {_board :: Board}
+data World = World
+  { _selectedCell :: Maybe (Int, Int),
+    _board :: Board
+  }
 
 makeLenses ''World
 
 mkWorld :: Board -> World
-mkWorld = World
-
-getBoard :: World -> Board
-getBoard = view board
+mkWorld = World Nothing

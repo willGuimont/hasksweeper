@@ -1,10 +1,13 @@
-module Main where
+module Main
+  ( main,
+  )
+where
 
 import AppTypes
-import HaskSweep
 import Constants
 import Draw
 import Graphics.Gloss.Interface.IO.Game
+import HaskSweep
 import Inputs
 
 windowDisplay :: Display
