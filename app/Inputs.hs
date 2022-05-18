@@ -11,11 +11,18 @@ import Graphics.Gloss.Interface.IO.Game
 import HaskSweep
 
 inputHandler :: Event -> World -> IO World
+inputHandler (EventKey (Char 'r') Down _ _) _ = mkWorld <$> addRandomMines numMines (mkEmptyBoard boardSize)
 inputHandler (EventMotion pos) w = pure (w & worldSelectedCell .~ posToBoardIndex pos)
 inputHandler (EventKey (MouseButton LeftButton) Down _ pos) w =
-  -- TODO handle game status
-  let (gameStatus, newBoard) = maybe (Ok, w ^. worldBoard) (revealCell (w ^. worldBoard)) (posToBoardIndex pos)
-   in print gameStatus >> pure (w & worldBoard .~ newBoard)
+  let maybePos = posToBoardIndex pos
+   in case maybePos of
+        Nothing -> pure w
+        Just p ->
+          if p `member` (w ^. worldMarked)
+            then pure w
+            else
+              let (gameStatus, newBoard) = maybe (Ok, w ^. worldBoard) (revealCell (w ^. worldBoard)) maybePos
+               in pure (w & (worldBoard .~ newBoard) . (worldGameStatus .~ gameStatus))
 inputHandler (EventKey (MouseButton RightButton) Down _ pos) w =
   let boardPos = posToBoardIndex pos
       marked = w ^. worldMarked

@@ -4,6 +4,7 @@ module AppTypes
   ( World,
     worldSelectedCell,
     worldMarked,
+    worldGameStatus,
     worldBoard,
     mkWorld,
   )
@@ -16,10 +17,11 @@ import HaskSweep
 data World = World
   { _worldSelectedCell :: Maybe (Int, Int),
     _worldMarked :: Set (Int, Int),
+    _worldGameStatus :: GameStatus,
     _worldBoard :: Board
   }
 
 makeLenses ''World
 
 mkWorld :: Board -> World
-mkWorld = World Nothing (fromList [])
+mkWorld = World Nothing (fromList []) Ok
