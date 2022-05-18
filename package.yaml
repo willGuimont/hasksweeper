@@ -79,6 +79,8 @@ dependencies:
   - gloss
   - lens
   - mtl
+  - random
+  - random-shuffle
 
 library:
   source-dirs: src

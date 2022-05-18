@@ -69,5 +69,9 @@
     <orderEntry type="library" name="OpenGLRaw-3.3.4.1" level="project" />
     <orderEntry type="library" name="fixed-0.3" level="project" />
     <orderEntry type="library" name="half-0.3.1" level="project" />
+    <orderEntry type="library" name="random-1.2.1.1" level="project" />
+    <orderEntry type="library" name="splitmix-0.1.0.4" level="project" />
+    <orderEntry type="library" name="random-shuffle-0.0.4" level="project" />
+    <orderEntry type="library" name="MonadRandom-0.5.3" level="project" />
   </component>
 </module>

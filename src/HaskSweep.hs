@@ -19,11 +19,12 @@ import Control.Lens
 import Control.Monad.State
 import Data.Array
 import Data.Maybe
+import System.Random.Shuffle
 
 -- Cells
-data CellType = EmptyCell Int | MinedCell deriving (Eq)
+data CellType = EmptyCell Int | MinedCell deriving (Show, Eq)
 
-data CellState = HiddenCell | VisibleCell deriving (Eq)
+data CellState = HiddenCell | VisibleCell deriving (Show, Eq)
 
 data Cell = Cell
   { _cellType :: CellType,
@@ -62,17 +63,22 @@ getCells b = zip (Data.Array.indices cs) (elems cs)
   where
     cs = b ^. boardCells
 
--- TODO put `n` random mines in the board
 addRandomMines :: Int -> Board -> IO Board
-addRandomMines n = return . addMineAt (3, 3) . addMineAt (4, 4) . addMineAt (3, 4)
+addRandomMines n b = do
+  foldl addMineAt b <$> randomPosition
   where
+    randomPosition = do
+      let s = b ^. boardSize
+      let allPositions = [(i, j) | i <- [1 .. s], j <- [1 .. s]]
+      shuffled <- shuffleM allPositions
+      return . take n $ shuffled
     addMineCloseToCell (EmptyCell x) = EmptyCell (x + 1)
     addMineCloseToCell MinedCell = MinedCell
-    addMineNeighborhood p b = foldl (\b' p' -> b' & boardCells . ix p' . cellType %~ addMineCloseToCell) b (getNeighborhoodIndices p)
-    addMineAt p = addMineNeighborhood p . (boardCells . ix p . cellType .~ MinedCell)
+    addMineNeighborhood p b' = foldl (\b'' p' -> b'' & boardCells . ix p' . cellType %~ addMineCloseToCell) b' (getNeighborhoodIndices p)
+    addMineAt b' p = addMineNeighborhood p . (boardCells . ix p . cellType .~ MinedCell) $ b'
 
 -- Reveal cell
-data GameStatus = Won | Lost | Ok
+data GameStatus = Won | Lost | Ok deriving (Show, Eq)
 
 type VisitableCells = Array (Int, Int) (Bool, Cell)
 
@@ -85,11 +91,15 @@ revealCell b p = (status, newBoard)
     newBoard = b & boardCells .~ newCells
     numMines = sum $ fromEnum . not . isEmpty . _cellType . snd <$> getCells newBoard
     numVisible = sum $ fromEnum . (== VisibleCell) . _cellState . snd <$> getCells newBoard
-    numCells = (b ^. boardSize) ^ 2
-    status = Ok
+    numCells = (b ^. boardSize) ^ (2 :: Int)
+    revealedCell = b ^? (boardCells . ix p . cellType)
+    status
+      | numVisible + numMines == numCells = Won
+      | revealedCell == Just MinedCell = Lost
+      | otherwise = Ok
 
 neighborDelta :: [(Int, Int)]
-neighborDelta = [(i, j) | i <- [-1 .. 1], j <- [-1 .. 1], (i, j) /= (0, 0), abs j + abs i == 1]
+neighborDelta = [(i, j) | i <- [-1 .. 1], j <- [-1 .. 1], (i, j) /= (0, 0)]
 
 getNeighborhoodIndices :: (Int, Int) -> [(Int, Int)]
 getNeighborhoodIndices (i, j) = bimap (i +) (j +) <$> neighborDelta
@@ -104,7 +114,8 @@ revealCells b p = do
   where
     neighbors = getNeighbors p $ snd <$> b
     isCellVisitable p' = not (fromMaybe False (b ^? (ix p' . _1))) && maybe False isEmpty (b ^? (ix p' . _2 . cellType))
-    visitableNeighbors = filter isCellVisitable $ fst <$> neighbors
+    revealedCell = fromMaybe (EmptyCell 0) (b ^? (ix p . _2 . cellType))
+    visitableNeighbors = if revealedCell == EmptyCell 0 then filter isCellVisitable $ fst <$> neighbors else []
     visitCell b' = put $ (b' & ix p . _2 . cellState .~ VisibleCell) & (ix p . _1 .~ True)
     update b' p' = do
       visitCell b'
