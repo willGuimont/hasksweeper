@@ -79,6 +79,7 @@ dependencies:
   - gloss
   - lens
   - mtl
+  - containers
   - random
   - random-shuffle
 

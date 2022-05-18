@@ -67,6 +67,7 @@ library
   build-depends:
       array
     , base >=4.7 && <5
+    , containers
     , gloss
     , lens
     , mtl
@@ -121,6 +122,7 @@ executable hasksweeper-exe
   build-depends:
       array
     , base >=4.7 && <5
+    , containers
     , gloss
     , hasksweeper
     , lens
@@ -173,6 +175,7 @@ test-suite hasksweeper-test
   build-depends:
       array
     , base >=4.7 && <5
+    , containers
     , gloss
     , hasksweeper
     , lens
